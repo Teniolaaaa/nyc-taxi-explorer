@@ -1,0 +1,6 @@
+/* Place raw data files here */
+/* Files needed:
+   - yellow_tripdata_*.parquet
+   - taxi_zone_lookup.csv
+   - taxi_zones.geojson
+*/

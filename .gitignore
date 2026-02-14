@@ -1,0 +1,33 @@
+# Byte-compiled files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+env/
+.env
+
+# Database files
+*.db
+database/taxi_data.db
+
+# Data files (too large for git)
+data/raw/*.parquet
+data/raw/*.csv
+data/raw/*.geojson
+data/processed/*.csv
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+data/cleaning_log.txt

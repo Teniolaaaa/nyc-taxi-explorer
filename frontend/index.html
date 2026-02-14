@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NYC Taxi Explorer</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- =================================================================
+         NYC Yellow Taxi Data Explorer - Frontend Dashboard
+         ================================================================= 
+         Responsibility: Gael Kamunuga Mparaye (Frontend Dashboard)
+         
+         This HTML file contains the structure for the dashboard.
+         Gael will build out the UI components and visualizations.
+         ================================================================= -->
+    
+    <header>
+        <h1>🚕 NYC Yellow Taxi Explorer</h1>
+        <p>Urban Mobility Data Dashboard</p>
+    </header>
+
+    <main>
+        <!-- ============================================================
+             FILTERS SECTION
+             ============================================================
+             Gael: Add borough dropdown and hour filter here
+             These should trigger API calls when changed
+             ============================================================ -->
+        <section id="filters">
+            <h2>Filters</h2>
+            <div class="filter-group">
+                <!-- TODO: Gael - Add borough dropdown -->
+                <label for="borough-select">Borough:</label>
+                <select id="borough-select">
+                    <option value="">All Boroughs</option>
+                    <!-- Options will be populated dynamically or manually added -->
+                </select>
+                
+                <!-- TODO: Gael - Add hour filter -->
+                <label for="hour-select">Hour:</label>
+                <select id="hour-select">
+                    <option value="">All Hours</option>
+                    <!-- Options 0-23 -->
+                </select>
+                
+                <button id="apply-filters">Apply Filters</button>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             SUMMARY STATISTICS SECTION
+             ============================================================
+             Gael: Display key metrics from /summary endpoint
+             ============================================================ -->
+        <section id="summary">
+            <h2>Summary Statistics</h2>
+            <div class="stats-container">
+                <!-- TODO: Gael - Add stat cards -->
+                <div class="stat-card">
+                    <h3>Total Trips</h3>
+                    <p id="total-trips">--</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Average Fare</h3>
+                    <p id="avg-fare">$--</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Average Distance</h3>
+                    <p id="avg-distance">-- miles</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             CHARTS SECTION
+             ============================================================
+             Gael: Create visualizations using Chart.js or similar
+             ============================================================ -->
+        <section id="charts">
+            <h2>Visualizations</h2>
+            
+            <!-- Trips by Hour Chart -->
+            <div class="chart-container">
+                <h3>Trips by Hour</h3>
+                <canvas id="trips-by-hour-chart"></canvas>
+            </div>
+            
+            <!-- Top Zones Chart -->
+            <div class="chart-container">
+                <h3>Top 10 Busiest Pickup Zones</h3>
+                <canvas id="top-zones-chart"></canvas>
+            </div>
+            
+            <!-- Average Fare by Hour Chart -->
+            <div class="chart-container">
+                <h3>Average Fare by Hour</h3>
+                <canvas id="avg-fare-chart"></canvas>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             DATA TABLE SECTION (Optional)
+             ============================================================ -->
+        <section id="data-table">
+            <h2>Trip Data</h2>
+            <table id="trips-table">
+                <thead>
+                    <tr>
+                        <th>Pickup Zone</th>
+                        <th>Dropoff Zone</th>
+                        <th>Distance</th>
+                        <th>Fare</th>
+                        <th>Duration (min)</th>
+                    </tr>
+                </thead>
+                <tbody id="trips-table-body">
+                    <!-- Data rows will be inserted here by JavaScript -->
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <footer>
+        <p>NYC Taxi Explorer - Urban Mobility Data Project</p>
+        <p>Team: Teniola, Rajveer, Michaella, Kevin, Gael</p>
+    </footer>
+
+    <!-- Chart.js library for visualizations -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Main JavaScript file -->
+    <script src="js/app.js"></script>
+</body>
+</html>
