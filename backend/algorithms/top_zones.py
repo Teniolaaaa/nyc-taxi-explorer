@@ -105,8 +105,17 @@ def get_top_n_zones(trip_data, n=10):
     # Step 3: Manual selection sort
     sorted_zones = selection_sort_descending(zone_list)
 
-    # Step 4: Return top N
-    return sorted_zones[:n]
+    # Step 4: Manually build top N list (NO slicing)
+    top_n = []
+
+    limit = n
+    if n > len(sorted_zones):
+        limit = len(sorted_zones)
+
+    for i in range(limit):
+        top_n.append(sorted_zones[i])
+
+    return top_n
 
 
 # =============================================================================
@@ -139,6 +148,9 @@ FUNCTION get_top_n_zones(trips, n):
     counts = count_pickups_by_zone(trips)
     zone_list = CONVERT counts TO list of (zone, count) pairs
     sorted_list = selection_sort_descending(zone_list)
-    RETURN first n elements of sorted_list
+    CREATE empty list top_n
+    FOR i FROM 0 TO n-1:
+        ADD sorted_list[i] TO top_n
+    RETURN top_n
 """
 
