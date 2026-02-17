@@ -83,25 +83,7 @@ def selection_sort_descending(zone_count_list):
     #     # Swap the found maximum with first unsorted element
     #     zone_count_list[i], zone_count_list[max_idx] = zone_count_list[max_idx], zone_count_list[i]
     
-    return zone_count_list
-
-
-def get_top_n_zones(trip_data, n=10):
-    """
-    Main function: Get the top N busiest pickup zones.
-    
-    Args:
-        trip_data: List of trip records
-        n: Number of top zones to return (default 10)
-        
-    Returns:
-        List of top N zones with their pickup counts
-    
-    Overall Time Complexity: O(t + z²) 
-        - t = number of trips (for counting)
-        - z = number of zones (for sorting)
-    Overall Space Complexity: O(z)
-    """
+    return zone_count
     # TODO: Michaella - Combine the functions above
     
     # Step 1: Count pickups per zone
