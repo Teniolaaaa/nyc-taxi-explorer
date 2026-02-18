@@ -75,15 +75,20 @@ def get_trips():
 
         conn = get_db_connection()
 
-        query = "SELECT * FROM trips WHERE 1=1"
+        query = """
+            SELECT t.*
+            FROM trips t
+            LEFT JOIN zones z ON t.pickup_zone_id = z.zone_id
+            WHERE 1=1
+        """
         params = []
 
         if borough:
-            query += " AND pickup_borough = ?"
+            query += " AND z.borough = ?"
             params.append(borough)
 
         if hour:
-            query += " AND pickup_hour = ?"
+            query += " AND t.pickup_hour = ?"
             params.append(hour)
 
         query += " LIMIT 100"
@@ -97,6 +102,7 @@ def get_trips():
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
 
 
 @app.route('/average-fare-by-hour')
@@ -130,7 +136,6 @@ def get_average_fare_by_hour():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-
 @app.route('/top-zones')
 def get_top_zones():
     """
@@ -143,42 +148,26 @@ def get_top_zones():
 
         conn = get_db_connection()
 
-        #  Efficient aggregation in SQL (not pulling all rows)
-        query = """
-            SELECT pickup_zone_id, COUNT(*) AS pickup_count
-            FROM trips
-            GROUP BY pickup_zone_id
-        """
+        #  Fetch RAW pickup_zone_id only (no aggregation)
+        query = "SELECT pickup_zone_id FROM trips"
 
         rows = conn.execute(query).fetchall()
         conn.close()
 
-        # Convert to algorithm-friendly structure
-        aggregated_data = [
+        # Convert rows into algorithm-friendly format (tuple structure)
+        trip_data = [(row["pickup_zone_id"],) for row in rows]
+
+        # Using Michaella's manual algorithm for counting + sorting
+        top_zones = get_top_n_zones(trip_data, n)
+
+        return jsonify([
             {
-                "pickup_zone_id": row["pickup_zone_id"],
-                "count": row["pickup_count"]
+                "pickup_zone_id": zone_id,
+                "trip_count": count
             }
-            for row in rows
-        ]
+            for zone_id, count in top_zones
+        ])
 
-        # Using Michaella's manual algorithm for sorting
-        top_zones = get_top_n_zones(aggregated_data, n)
-
-        return jsonify(top_zones)
-
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
-
-# Here is even an Endpoint that returns the available boroughs
-@app.route('/boroughs')
-def get_boroughs():
-    try:
-        conn = get_db_connection()
-        query = "SELECT DISTINCT pickup_borough FROM trips WHERE pickup_borough IS NOT NULL"
-        rows = conn.execute(query).fetchall()
-        conn.close()
-        return jsonify([row["pickup_borough"] for row in rows])
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
