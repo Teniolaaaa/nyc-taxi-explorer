@@ -1,13 +1,8 @@
-/* =============================================================================
-   NYC Yellow Taxi Explorer - Stylesheet
-   =============================================================================
-   Responsibility: Gael Kamunuga Mparaye (Frontend Dashboard)
-   
-   This CSS file provides styling for the dashboard.
-   Gael will expand and customize these styles.
-   ============================================================================= */
+/*
+    NYC Taxi Explorer - Styles
+    Author: Teniola Adam Olaleye
+*/
 
-/* Reset and Base Styles */
 * {
     margin: 0;
     padding: 0;
@@ -15,128 +10,134 @@
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f5f5f5;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    background: #f4f4f4;
     color: #333;
-    line-height: 1.6;
 }
 
 /* Header */
 header {
-    background-color: #FFD700; /* NYC Taxi Yellow */
+    background: #FFD700;
     color: #000;
     padding: 20px;
     text-align: center;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
 header h1 {
     font-size: 2rem;
-    margin-bottom: 5px;
 }
 
-/* Main Content */
+header p {
+    font-size: 1rem;
+    margin-top: 5px;
+}
+
+/* Main */
 main {
     max-width: 1200px;
     margin: 20px auto;
-    padding: 0 20px;
+    padding: 0 15px;
 }
 
 /* Sections */
 section {
-    background-color: #fff;
+    background: #fff;
     border-radius: 8px;
     padding: 20px;
     margin-bottom: 20px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 section h2 {
-    color: #333;
     margin-bottom: 15px;
-    border-bottom: 2px solid #FFD700;
     padding-bottom: 10px;
+    border-bottom: 3px solid #FFD700;
 }
 
 /* Filters */
-#filters .filter-group {
+.filter-group {
     display: flex;
     gap: 15px;
     align-items: center;
     flex-wrap: wrap;
 }
 
-#filters label {
+.filter-group label {
     font-weight: bold;
 }
 
-#filters select {
-    padding: 8px 15px;
-    border: 1px solid #ddd;
+.filter-group select {
+    padding: 10px;
+    border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 1rem;
 }
 
-#filters button {
-    background-color: #FFD700;
-    color: #000;
+.filter-group button {
+    background: #FFD700;
     border: none;
-    padding: 10px 20px;
+    padding: 10px 25px;
     border-radius: 4px;
-    cursor: pointer;
     font-weight: bold;
-    transition: background-color 0.3s;
+    cursor: pointer;
 }
 
-#filters button:hover {
-    background-color: #e6c200;
+.filter-group button:hover {
+    background: #e6c200;
 }
 
-/* Stats Container */
+/* Stats */
 .stats-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     gap: 20px;
 }
 
 .stat-card {
-    background-color: #f9f9f9;
-    border-left: 4px solid #FFD700;
-    padding: 15px;
+    background: #fafafa;
+    padding: 20px;
     text-align: center;
+    border-left: 4px solid #FFD700;
 }
 
 .stat-card h3 {
     font-size: 0.9rem;
     color: #666;
-    margin-bottom: 5px;
+    margin-bottom: 8px;
 }
 
 .stat-card p {
     font-size: 1.8rem;
     font-weight: bold;
-    color: #333;
 }
 
 /* Charts */
+.charts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 30px;
+}
+
 .chart-container {
-    margin-bottom: 30px;
+    background: #fafafa;
+    padding: 15px;
+    border-radius: 8px;
 }
 
 .chart-container h3 {
     margin-bottom: 15px;
+    font-size: 1rem;
     color: #555;
 }
 
-.chart-container canvas {
-    max-height: 400px;
+/* Table */
+.table-wrapper {
+    overflow-x: auto;
 }
 
-/* Data Table */
 #trips-table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 10px;
 }
 
 #trips-table th,
@@ -147,32 +148,45 @@ section h2 {
 }
 
 #trips-table th {
-    background-color: #FFD700;
-    color: #000;
+    background: #FFD700;
     font-weight: bold;
 }
 
 #trips-table tr:hover {
-    background-color: #f5f5f5;
+    background: #f9f9f9;
 }
 
 /* Footer */
 footer {
-    text-align: center;
-    padding: 20px;
-    background-color: #333;
+    background: #333;
     color: #fff;
-    margin-top: 40px;
+    text-align: center;
+    padding: 15px;
+    margin-top: 30px;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-    #filters .filter-group {
+/* Loading state */
+.loading {
+    color: #999;
+    font-style: italic;
+}
+
+/* Error state */
+.error {
+    color: #d32f2f;
+    padding: 10px;
+    background: #ffebee;
+    border-radius: 4px;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .filter-group {
         flex-direction: column;
         align-items: stretch;
     }
     
-    .stats-container {
+    .charts-grid {
         grid-template-columns: 1fr;
     }
 }
