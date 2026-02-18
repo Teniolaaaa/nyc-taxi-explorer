@@ -30,27 +30,47 @@ def initialize_database():
 
 
 def load_zones_data():
-    """Load zone lookup into zones table"""
-    zone_file = os.path.join(RAW_DATA_PATH, 'taxi_zone_lookup.csv')
+    """Load zone lookup into zones table - extract from cleaned data"""
+    trips_file = os.path.join(PROCESSED_DATA_PATH, 'cleaned_taxi_data.csv')
     
-    if not os.path.exists(zone_file):
-        print(f"ERROR: Zone file not found: {zone_file}")
+    if not os.path.exists(trips_file):
+        print("ERROR: Cleaned data not found, cant extract zones")
         return False
     
-    df = pd.read_csv(zone_file)
+    print("Extracting zones from cleaned data...")
+    df = pd.read_csv(trips_file)
     
     conn = sqlite3.connect(DATABASE_PATH)
     
-    # Insert each zone
+    # Get unique pickup zones from the data
+    # Rajveer already joined zone info into the cleaned data
+    zones_seen = set()
+    
     for _, row in df.iterrows():
-        conn.execute("""
-            INSERT OR REPLACE INTO zones (zone_id, zone_name, borough, service_zone)
-            VALUES (?, ?, ?, ?)
-        """, (row['LocationID'], row['Zone'], row['Borough'], row.get('service_zone', '')))
+        pu_id = int(row['PULocationID'])
+        if pu_id not in zones_seen:
+            zones_seen.add(pu_id)
+            zone_name = row['pickup_zone_name'] if pd.notna(row['pickup_zone_name']) else f'Zone {pu_id}'
+            borough = row['pickup_borough'] if pd.notna(row['pickup_borough']) else 'Unknown'
+            conn.execute("""
+                INSERT OR REPLACE INTO zones (zone_id, zone_name, borough, service_zone)
+                VALUES (?, ?, ?, ?)
+            """, (pu_id, zone_name, borough, ''))
+        
+        # Also add dropoff zones
+        do_id = int(row['DOLocationID'])
+        if do_id not in zones_seen:
+            zones_seen.add(do_id)
+            zone_name = row['dropoff_zone_name'] if pd.notna(row['dropoff_zone_name']) else f'Zone {do_id}'
+            borough = row['dropoff_borough'] if pd.notna(row['dropoff_borough']) else 'Unknown'
+            conn.execute("""
+                INSERT OR REPLACE INTO zones (zone_id, zone_name, borough, service_zone)
+                VALUES (?, ?, ?, ?)
+            """, (do_id, zone_name, borough, ''))
     
     conn.commit()
     conn.close()
-    print(f"Loaded {len(df)} zones")
+    print(f"Extracted {len(zones_seen)} zones from trip data")
     return True
 
 

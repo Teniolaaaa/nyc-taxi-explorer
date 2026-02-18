@@ -8,6 +8,10 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 import sqlite3
 import os
+import sys
+
+# Make sure we can import from the backend folder
+sys.path.insert(0, os.path.dirname(__file__))
 from algorithms.top_zones import get_top_n_zones
 
 app = Flask(__name__)
