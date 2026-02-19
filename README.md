@@ -117,8 +117,20 @@ See `database/schema.sql` for details.
 
 ## Video Walkthrough
 
-[Link will be added]
+📹 **Watch our demo:** [NYC Taxi Explorer Video Walkthrough](https://1drv.ms/v/c/34733789c5f8f03e/IQApjExNoOMASadQ-h4gUjagAcSOU_UNdj7f4176zlYIOrs?e=zM5ODr)
+
+In the video we cover:
+- Live demo of the dashboard
+- Data cleaning process (Rajveer)
+- Backend API explanation (Kevin)
+- Algorithm walkthrough - selection sort (Michaella)
+- Frontend & UI features (Gael)
+- Database design (Teniola)
+
+## Documentation
+
+📄 Full project documentation available in `docs/Ewd 14 project_documentation.pdf`
 
 ---
 
-Built by Team NYC Taxi Explorer
+Built by Team NYC Taxi Explorer | DSA Final Project | February 2026
