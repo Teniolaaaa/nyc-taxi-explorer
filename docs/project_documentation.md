@@ -408,29 +408,103 @@ python -m http.server 8080
 | Kevin Manzi | Backend | Flask API, all endpoints, error handling |
 | Michaella Ikirezi | Algorithm | Top N zones algorithm, complexity analysis |
 | Rajveer Singh Sodhi | Data | ETL pipeline, data cleaning, derived features |
-| Gael Hirwa | Frontend | HTML/CSS/JS, Chart.js visualizations |
+| Gael Hirwa | Frontend | HTML/CSS/JS, Chart.js visualizations, map |
 
 ---
 
-## 11. Lessons Learned
+## 11. The Story Behind Our Project
 
-1. **Data quality matters** - Spent significant time cleaning outliers
-2. **Schema design first** - Normalized schema made queries efficient
-3. **Manual algorithms** - Implementing sorting manually gave deeper understanding
-4. **Team coordination** - Clear file ownership prevented merge conflicts
-5. **CORS configuration** - Essential for frontend-backend communication
+### Why We Chose This Topic
+
+Honestly, when we first saw "urban mobility data" we weren't sure what to build. Then Teniola mentioned how expensive Ubers were getting back home, and we started wondering - is there a pattern to taxi prices? Are some areas just more expensive? That curiosity led us here.
+
+NYC seemed perfect because the data is public and there's SO much of it. Like, 3 million trips in one month alone. We had no idea taxis were that busy.
+
+### What We Discovered (and didn't expect)
+
+Some things surprised us:
+
+**1. The 4 AM Problem**
+We expected rush hour (8-9 AM) to have the highest fares. Wrong. It's actually 4-5 AM. Why? Probably surge pricing when there are fewer drivers but people still need rides (late night workers, early flights, etc). We didn't expect that at all.
+
+**2. Upper East Side Dominates**
+Zone 237 (Upper East Side South) had the most pickups - over 4,400. Makes sense when you think about it - wealthy area, lots of people who can afford taxis regularly. Meanwhile some zones in outer boroughs had barely any trips.
+
+**3. Average Trip is Pretty Short**
+$12.18 for 2.84 miles. That's like... a 10-15 minute ride. Most people aren't taking taxis across the city, just short hops. Probably cheaper than parking honestly.
+
+### The Real-World Value
+
+We kept asking ourselves "who would actually use this?" Here's what we came up with:
+
+- **A new taxi driver** could look at our map and know "okay, I should hang around Midtown and Upper East Side if I want more passengers"
+- **Someone visiting NYC** could check our fare-by-hour chart and avoid taking taxis at 4 AM if they want to save money
+- **City planners** could see which areas are underserved and maybe add more public transit there
+
+It's not going to change the world, but it answers real questions people might have.
+
+### The Human Side
+
+Working on this project taught us that data isn't just numbers. Each of those 98,488 rows is someone's trip - maybe a business person rushing to a meeting, a tourist heading to Times Square, or someone going to the hospital at 3 AM. 
+
+When you think about it that way, the data feels different.
 
 ---
 
-## 12. Future Improvements
+## 12. Challenges We Faced (being honest)
 
-1. Add date range filtering
-2. Implement map visualization with Leaflet.js
-3. Add payment type analysis
-4. Deploy to cloud (Heroku/Railway)
-5. Add user authentication for saved filters
+| What Happened | How We Felt | How We Fixed It |
+|---------------|-------------|-----------------|
+| Dataset was 3 million rows | "Our laptops can't handle this" | Sampled down to 100K |
+| Some fares were $999 | "That can't be real" | Filtered anything over $500 |
+| Couldn't use Python's sort() | "Wait, we have to write our own??" | Michaella implemented selection sort |
+| Frontend couldn't talk to backend | "CORS error? What's CORS?" | Googled for 2 hours, added flask-cors |
+| Git kept having conflicts | "Who touched my file?!" | Made a rule: one person per file |
+| Map wasn't loading | "Why is it just grey?" | Wrong API key, took forever to debug |
+
+The CORS error was the worst. We spent a whole evening on it before realizing we just needed to add one line of code. Classic.
 
 ---
 
-*Document prepared by Team NYC Taxi Explorer*  
-*February 2026*
+## 13. Reflection (what we actually learned)
+
+**Teniola:** "Being team lead is harder than I thought. You have to keep track of everyone's progress and make sure pieces fit together. But seeing everything come together at the end was really satisfying."
+
+**Kevin:** "I'd never built an API before. Flask is actually pretty straightforward once you get it. The hardest part was figuring out the SQL queries with JOINs."
+
+**Michaella:** "Writing selection sort from scratch made me actually understand how it works. Before I just knew 'it's O(n²)', now I know WHY it's O(n²) because I wrote those nested loops myself."
+
+**Rajveer:** "Data cleaning is 80% of the work. Seriously. The actual analysis was quick, but getting the data ready took forever."
+
+**Gael:** "I learned Chart.js and Leaflet in like 3 days. YouTube tutorials saved me. The map was tricky but it looks cool now."
+
+### If we had more time:
+- Deploy it online so anyone can use it (not just localhost)
+- Add more filters (date range, payment type)
+- Maybe predict fares using machine learning? (for another class lol)
+
+---
+
+## 14. Lessons Learned
+
+1. **Start with the data** - Understand what you have before building anything
+2. **Database design matters** - Our indexes made queries 10x faster
+3. **Divide work clearly** - One person per component = no conflicts
+4. **Google is your friend** - Seriously, every error we had, someone else had too
+5. **Test as you go** - We broke things a lot. Testing early would've saved time.
+
+---
+
+## 15. Future Improvements
+
+1. ~~Add map visualization~~ ✅ Done!
+2. Add date range filtering
+3. Show payment type breakdown (cash vs card)
+4. Deploy online (Heroku or Railway)
+5. Mobile app version maybe?
+6. Compare with Uber/Lyft data if we can find it
+
+---
+
+*This documentation was written by the team over several late nights and too much coffee.*  
+*NYC Taxi Explorer - February 2026*
