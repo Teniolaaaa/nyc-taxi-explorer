@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NYC Taxi Analysis - DSA Project</title>
     <link rel="stylesheet" href="css/style.css">
+    <!-- leaflet for the map -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 </head>
 <body>
     <!-- frontend for our taxi project - gael -->
@@ -76,6 +78,13 @@
             </div>
         </section>
 
+        <!-- Map Section -->
+        <section id="map-section">
+            <h2>NYC Pickup Locations Map</h2>
+            <p class="map-info">Showing top pickup zones in Manhattan area</p>
+            <div id="nyc-map"></div>
+        </section>
+
         <!-- Trips Table -->
         <section id="trips-section">
             <h2>Trip Data</h2>
@@ -103,6 +112,8 @@
         <p>DSA Final Project - Spring 2026 | Made with lots of coffee ☕</p>
     </footer>
 
+    <!-- leaflet for map -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <!-- chartjs for the graphs -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="js/app.js"></script>

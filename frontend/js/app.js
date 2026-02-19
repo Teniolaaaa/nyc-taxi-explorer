@@ -252,7 +252,68 @@ async function init() {
     const zonesData = await fetchTopZones();
     renderTopZonesChart(zonesData);
     
+    // setup the map
+    initMap();
+    
     console.log('done!');
+}
+
+// ==================
+// map stuff - shows nyc with markers for busy zones
+// ==================
+
+function initMap() {
+    // create map centered on manhattan
+    const map = L.map('nyc-map').setView([40.7580, -73.9855], 12);
+    
+    // add the tile layer (the actual map images)
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
+        maxZoom: 19
+    }).addTo(map);
+    
+    // popular pickup locations in nyc (approximate coords)
+    // these are some of the busiest zones based on our data
+    const hotspots = [
+        { name: "Upper East Side South", lat: 40.7736, lng: -73.9566, trips: 4476 },
+        { name: "Upper East Side North", lat: 40.7831, lng: -73.9534, trips: 4185 },
+        { name: "Midtown Center", lat: 40.7549, lng: -73.9840, trips: 4030 },
+        { name: "Midtown East", lat: 40.7527, lng: -73.9653, trips: 3564 },
+        { name: "Times Square", lat: 40.7580, lng: -73.9855, trips: 3419 },
+        { name: "Penn Station", lat: 40.7506, lng: -73.9935, trips: 3201 },
+        { name: "Lincoln Square", lat: 40.7742, lng: -73.9822, trips: 2987 },
+        { name: "Murray Hill", lat: 40.7479, lng: -73.9757, trips: 2845 },
+        { name: "Gramercy", lat: 40.7367, lng: -73.9844, trips: 2654 },
+        { name: "East Village", lat: 40.7265, lng: -73.9815, trips: 2432 }
+    ];
+    
+    // add circle markers for each hotspot
+    // bigger circle = more trips
+    hotspots.forEach(spot => {
+        const radius = Math.sqrt(spot.trips) * 0.8; // scale the size
+        
+        L.circleMarker([spot.lat, spot.lng], {
+            radius: radius,
+            fillColor: '#e94560',
+            color: '#fff',
+            weight: 2,
+            opacity: 0.9,
+            fillOpacity: 0.6
+        }).addTo(map)
+        .bindPopup('<b>' + spot.name + '</b><br>' + spot.trips.toLocaleString() + ' pickups');
+    });
+    
+    // add a legend
+    const legend = L.control({ position: 'bottomright' });
+    legend.onAdd = function() {
+        const div = L.DomUtil.create('div', 'map-legend');
+        div.innerHTML = '<div style="background: rgba(0,0,0,0.7); padding: 10px; border-radius: 5px; color: white;">' +
+            '<b>Pickup Hotspots</b><br>' +
+            '<span style="color: #e94560;">●</span> Larger = More trips' +
+            '</div>';
+        return div;
+    };
+    legend.addTo(map);
 }
 
 // start everything when dom is ready

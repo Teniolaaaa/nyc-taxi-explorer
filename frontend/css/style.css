@@ -194,6 +194,21 @@ footer {
     border-top: 1px solid rgba(255,255,255,0.1);
 }
 
+/* map section */
+#nyc-map {
+    height: 400px;
+    width: 100%;
+    border-radius: 12px;
+    border: 2px solid rgba(233, 69, 96, 0.3);
+    margin-top: 15px;
+}
+
+.map-info {
+    color: #aaa;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+}
+
 /* when stuff is loading */
 .loading {
     color: #888;
