@@ -1,16 +1,7 @@
-# =============================================================================
-# Data Cleaning & Feature Engineering Script
-# =============================================================================
-# Responsibility: Rajveer Singh Jolly (Data Cleaning & Feature Engineering)
-#
-# This script handles:
-# 1. Loading the parquet file
-# 2. Merging with taxi_zone_lookup.csv
-# 3. Cleaning missing values
-# 4. Removing logical outliers
-# 5. Creating derived features
-# 6. Logging removed/suspicious records
-# =============================================================================
+# data cleaning script
+# rajveer did this part
+# basically loads the raw data, removes bad rows, and saves clean version
+# took forever to figure out what counts as an "outlier" lol
 
 import pandas as pd
 import numpy as np
