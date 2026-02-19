@@ -1,8 +1,6 @@
-# =============================================================================
-# NYC Yellow Taxi Data Explorer - Flask Application
-# =============================================================================
-# Responsibility: Kevin Manzi (Backend API)
-# =============================================================================
+# backend api for taxi project
+# kevin did most of this
+# basically just connects to the database and returns json
 
 from flask import Flask, jsonify, request
 from flask_cors import CORS
@@ -10,40 +8,37 @@ import sqlite3
 import os
 import sys
 
-# Make sure we can import from the backend folder
+# need this so python can find our algorithm file
 sys.path.insert(0, os.path.dirname(__file__))
 from algorithms.top_zones import get_top_n_zones
 
 app = Flask(__name__)
-CORS(app)
+CORS(app)  # so frontend can talk to us
 
 DATABASE_PATH = os.path.join(os.path.dirname(__file__), '..', 'database', 'taxi_data.db')
 
 
 def get_db_connection():
+    # helper function to connect to sqlite
     if not os.path.exists(DATABASE_PATH):
-        raise FileNotFoundError("Database file not found. Ensure ETL process created taxi_data.db")
-
+        raise FileNotFoundError("database not found - run the loader script first")
     conn = sqlite3.connect(DATABASE_PATH)
     conn.row_factory = sqlite3.Row
     return conn
 
 
-# =============================================================================
-# API ENDPOINTS
-# =============================================================================
+# ----------------
+# routes
+# ----------------
 
 @app.route('/')
 def home():
-    return jsonify({"message": "NYC Taxi Explorer API is running", "status": "ok"})
+    return jsonify({"message": "api is running", "status": "ok"})
 
 
 @app.route('/summary')
 def get_summary():
-    """
-    GET /summary
-    Returns overall statistics about the dataset.
-    """
+    # returns total trips, avg fare, avg distance
     try:
         conn = get_db_connection()
 

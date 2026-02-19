@@ -1,32 +1,18 @@
-# =============================================================================
-# Manual Algorithm: Top N Busiest Pickup Zones
-# =============================================================================
-# Responsibility: Michaella Kamikazi Karangwa (Algorithm Implementation)
+# top zones algorithm
+# michaella wrote this
 #
-# CONSTRAINTS (as per assignment requirements):
-# - NO built-in sort() function
-# - NO Counter from collections
-# - NO pandas groupby
-# - Must manually count using dictionary logic
-# - Must manually sort using selection sort
-#
-# This file demonstrates understanding of fundamental algorithms
-# and data structures.
-# =============================================================================
+# we cant use sort() or Counter because prof said no built-ins
+# so we have to do it manually with selection sort
+# took a while to figure out but it works
 
 
 def count_pickups_by_zone(trip_data):
     """
-    Manually count the number of pickups per zone using a dictionary.
-
-    Args:
-        trip_data: List of tuples or dictionaries containing pickup_zone_id
-
-    Returns:
-        Dictionary with zone_id as key and pickup count as value
-
-    Time Complexity: O(n)
-    Space Complexity: O(z)
+    count how many pickups happened in each zone
+    uses a dictionary to keep track
+    
+    time: O(n) - goes through all trips once
+    space: O(z) - one entry per zone
     """
 
     zone_counts = {}
@@ -49,16 +35,13 @@ def count_pickups_by_zone(trip_data):
 
 def selection_sort_descending(zone_count_list):
     """
-    Manually sort zones by count in descending order using Selection Sort.
-
-    Args:
-        zone_count_list: List of tuples [(zone_id, count), ...]
-
-    Returns:
-        Sorted list in descending order by count
-
-    Time Complexity: O(z²)
-    Space Complexity: O(1)
+    sort the zones by count, highest first
+    using selection sort since we cant use built-in sort
+    
+    basically finds the biggest, puts it first, then finds next biggest, etc
+    
+    time: O(z^2) - nested loops
+    space: O(1) - sorts in place
     """
 
     n = len(zone_count_list)
@@ -81,20 +64,17 @@ def selection_sort_descending(zone_count_list):
 
 def get_top_n_zones(trip_data, n=10):
     """
-    Main function: Get the top N busiest pickup zones.
-
-    Args:
-        trip_data: List of trip records
-        n: Number of top zones to return
-
-    Returns:
-        List of top N zones as (zone_id, count) tuples
-
-    Overall Time Complexity: O(t + z²)
-    Overall Space Complexity: O(z)
+    main function - gets the busiest pickup zones
+    
+    1. count pickups per zone (using dict)
+    2. sort them (using selection sort)
+    3. return top n
+    
+    time: O(t + z^2) where t=trips, z=zones
+    space: O(z)
     """
 
-    # Step 1: Manual counting
+    # count all the pickups
     zone_counts = count_pickups_by_zone(trip_data)
 
     # Step 2: Convert dictionary to list of tuples

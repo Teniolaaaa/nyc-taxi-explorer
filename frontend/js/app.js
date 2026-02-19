@@ -1,19 +1,16 @@
-/*
-    NYC Taxi Explorer - Frontend JavaScript
-    Author: Teniola Adam Olaleye
-    
-    Handles API calls, charts, and UI updates
-*/
+// javascript for our taxi dashboard
+// gael wrote this with help from kevin for the api stuff
+// last edited: feb 2026
 
 const API_URL = 'http://localhost:5000';
 
-// Chart instances (so we can destroy and recreate them)
+// need to keep track of charts so we can update them later
 let fareChart = null;
 let zonesChart = null;
 
-// ============================================
-// API Functions
-// ============================================
+// ==================
+// api fetch functions
+// ==================
 
 async function fetchSummary() {
     try {
@@ -142,23 +139,21 @@ function renderFareByHourChart(data) {
             datasets: [{
                 label: 'Average Fare ($)',
                 data: fares,
-                borderColor: '#FFD700',
-                backgroundColor: 'rgba(255, 215, 0, 0.2)',
+                borderColor: '#e94560',
+                backgroundColor: 'rgba(233, 69, 96, 0.2)',
                 fill: true,
-                tension: 0.3
+                tension: 0.3,
+                pointBackgroundColor: '#e94560'
             }]
         },
         options: {
             responsive: true,
             plugins: {
-                legend: {
-                    display: true
-                }
+                legend: { display: true, labels: { color: '#ccc' } }
             },
             scales: {
-                y: {
-                    beginAtZero: false
-                }
+                y: { beginAtZero: false, ticks: { color: '#aaa' }, grid: { color: 'rgba(255,255,255,0.1)' } },
+                x: { ticks: { color: '#aaa' }, grid: { color: 'rgba(255,255,255,0.1)' } }
             }
         }
     });
@@ -192,29 +187,31 @@ function renderTopZonesChart(data) {
             datasets: [{
                 label: 'Number of Pickups',
                 data: counts,
-                backgroundColor: '#4CAF50',
-                borderColor: '#388E3C',
+                backgroundColor: 'rgba(233, 69, 96, 0.7)',
+                borderColor: '#e94560',
                 borderWidth: 1
             }]
         },
         options: {
-            indexAxis: 'y',  // horizontal bar
+            indexAxis: 'y',
             responsive: true,
             plugins: {
-                legend: {
-                    display: false
-                }
+                legend: { display: false }
+            },
+            scales: {
+                x: { ticks: { color: '#aaa' }, grid: { color: 'rgba(255,255,255,0.1)' } },
+                y: { ticks: { color: '#ccc' }, grid: { color: 'rgba(255,255,255,0.05)' } }
             }
         }
     });
 }
 
-// ============================================
-// Event Handlers
-// ============================================
+// ==================
+// filter stuff
+// ==================
 
 function setupFilters() {
-    // Populate hour dropdown (0-23)
+    // fill in the hour dropdown with 0-23
     const hourSelect = document.getElementById('hour-select');
     for (let h = 0; h < 24; h++) {
         const opt = document.createElement('option');
@@ -223,44 +220,40 @@ function setupFilters() {
         hourSelect.appendChild(opt);
     }
     
-    // Apply filters button
+    // when user clicks apply button
     document.getElementById('apply-filters').addEventListener('click', async function() {
         const borough = document.getElementById('borough-select').value;
         const hour = document.getElementById('hour-select').value;
         
-        // Fetch filtered trips
         const trips = await fetchTrips(borough, hour);
         updateTripsTable(trips);
     });
 }
 
-// ============================================
-// Initialize Dashboard
-// ============================================
+// ==================
+// main init function - runs when page loads
+// ==================
 
 async function init() {
-    console.log('Starting NYC Taxi Explorer...');
+    console.log('loading dashboard...');
     
-    // Setup filter dropdowns
     setupFilters();
     
-    // Load summary stats
+    // get all the data from our api
     const summary = await fetchSummary();
     updateSummary(summary);
     
-    // Load initial trips
     const trips = await fetchTrips('', '');
     updateTripsTable(trips);
     
-    // Load and render charts
     const fareData = await fetchAvgFareByHour();
     renderFareByHourChart(fareData);
     
     const zonesData = await fetchTopZones();
     renderTopZonesChart(zonesData);
     
-    console.log('Dashboard loaded!');
+    console.log('done!');
 }
 
-// Run when page loads
+// start everything when dom is ready
 document.addEventListener('DOMContentLoaded', init);
